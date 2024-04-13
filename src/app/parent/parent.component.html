@@ -1,0 +1,5 @@
+<h4>Parent</h4>
+<button class="btn btn-primary" (click)="callChild()">call child</button>
+<div class="parent">
+    <app-child #child [data]="parentData" (childClick)="parentFu($event)"></app-child>
+</div>
