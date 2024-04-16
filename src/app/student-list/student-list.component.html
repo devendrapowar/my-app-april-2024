@@ -1,0 +1,28 @@
+<h3>Student List</h3>
+<!-- <button class="btn btn-primary" (click)="toggleTable()">Show / Hide Table</button> -->
+<div class="mb-3">
+    <label for="searchByName" class="form-label">Search</label>
+    <input type="text" class="form-control" id="searchByName" 
+        placeholder="Search by name" [(ngModel)]="searchByName"
+            (input)="searchStudent()">
+</div>
+<table class="table" *ngIf="showList">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students; let i = index" [ngClass]="i%2==0 ? 'even': '' ">
+            <td>{{student.name}}</td>
+            <td>{{student.age}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.number}}</td>
+            <td><button class="btn btn-primary" (click)="deleteStudent(i)">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
