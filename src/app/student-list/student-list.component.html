@@ -10,14 +10,14 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Age</th>
+            <th>Age <button class="btn btn-primary" (click)="sortByAge()">sort</button></th>
             <th>Email</th>
             <th>Number</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let student of students; let i = index" [ngClass]="i%2==0 ? 'even': '' ">
+        <tr *ngFor="let student of filteredStudent; let i = index" [ngClass]="i%2==0 ? 'even': '' ">
             <td>{{student.name}}</td>
             <td>{{student.age}}</td>
             <td>{{student.email}}</td>
