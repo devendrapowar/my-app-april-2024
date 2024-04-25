@@ -54,4 +54,17 @@ export class StudentService {
   getStudentList(): StudentModel[] {
     return this.students;
   }
+
+  getStudentData(id: string): StudentModel | undefined {
+    return this.students.find((std: StudentModel)=>{
+      return std.id === id;
+    })
+  }
+
+  createStudent(student: StudentModel) {
+    if(!student.id) {
+      student.id = 'id' + this.students.length + 1;
+    }
+    this.students.unshift(student)
+  }
 }
