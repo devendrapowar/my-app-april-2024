@@ -27,9 +27,13 @@ export class StudentListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.students = this.studentService.getStudentList();
-    console.log(this.students);
-    this.searchStudent()
+
+    this.studentService.getStudentList().subscribe((res)=>{
+      console.log('coming from server', res)
+      this.students = res;
+      console.log(this.students);
+      this.searchStudent()
+    });
   }
 
   
@@ -37,9 +41,11 @@ export class StudentListComponent implements OnInit{
     this.showList = !this.showList
   }
 
-  deleteStudent(index: number) {
-    this.students.splice(index, 1);
-    this.searchStudent();
+  deleteStudent(id: string) {
+    this.studentService.deleteStudent(id).subscribe((res)=>{
+      this.students = res;
+      this.searchStudent()
+    })
   }
 
   searchStudent() {
@@ -57,13 +63,11 @@ export class StudentListComponent implements OnInit{
     }
   }
 
-  goTo(id: string) {
-    console.log('id', id)
-    this.router.navigate(['student-details', id]);
+  goTo(pageName: string, id: string) {
+    this.router.navigate([pageName, id]);
   }
 
   createStudent() {
-    console.log('create student');
     this.router.navigate(['create-student']);
   }
 

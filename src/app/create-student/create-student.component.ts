@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StudentService } from '../services/student.service';
@@ -12,7 +12,12 @@ import { NgClass, NgIf } from '@angular/common';
   styleUrl: './create-student.component.scss'
 })
 export class CreateStudentComponent  implements OnInit {
+  public studentId!: string;
   public studentForm!: FormGroup;
+  @Input()
+  set stdId(value: string) {
+    this.studentId = value;
+  }
 
   constructor(private fb: FormBuilder, private router: Router, private studentService: StudentService) {}
 
@@ -25,11 +30,33 @@ export class CreateStudentComponent  implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       number: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     })
+    console.log(this.studentForm);
+    this.studentForm.valueChanges.subscribe((value)=>{
+      console.log(value);
+    })
+    this.studentForm.statusChanges.subscribe((status)=>{
+      console.log(status)
+    })
+
+
+    if(this.studentId) {
+      this.initStudent();
+    }
+  }
+
+  initStudent() {
+    const studentData: any = this.studentService.getStudentData(this.studentId);
+    this.studentForm.setValue(studentData);
   }
 
   saveStudent() {
-    this.studentService.createStudent(this.studentForm.value);
-    this.goTo();
+    if(this.studentId) {
+      this.studentService.editStudent(this.studentForm.value);
+    } else {
+      this.studentService.createStudent(this.studentForm.value).subscribe((res)=>{
+        this.goTo();
+      })
+    }
   }
 
   goTo() {

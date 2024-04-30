@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StudentModel } from '../model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const STUDENTS: StudentModel[] = [
   {
@@ -48,23 +50,38 @@ const STUDENTS: StudentModel[] = [
   providedIn: 'root'
 })
 export class StudentService {
+  private url: string = 'http://localhost:5000/api';
   private students: StudentModel[] = STUDENTS;
-  constructor() { }
 
-  getStudentList(): StudentModel[] {
-    return this.students;
+  constructor(private httpClint: HttpClient) { }
+
+  getStudentList(): Observable<any> {
+    // return this.students;
+    return this.httpClint.get(this.url + '/students')
   }
 
-  getStudentData(id: string): StudentModel | undefined {
-    return this.students.find((std: StudentModel)=>{
-      return std.id === id;
+  getStudentData(id: string): Observable<any>  {
+    return this.httpClint.get(this.url + '/students/' + id);
+  }
+
+  deleteStudent(id: string): Observable<any>  {
+    return this.httpClint.delete(this.url + '/students/' + id);
+  }
+
+  createStudent(student: StudentModel): Observable<any> {
+    return this.httpClint.post(this.url + '/students', student);
+    // if(!student.id) {
+    //   student.id = 'id' + this.students.length + 1;
+    // }
+    // this.students.unshift(student)
+  }
+
+  editStudent(student: StudentModel) {
+    const index = this.students.findIndex((std: StudentModel)=> {
+      return std.id == student.id
     })
-  }
-
-  createStudent(student: StudentModel) {
-    if(!student.id) {
-      student.id = 'id' + this.students.length + 1;
+    if(index > -1) {
+      this.students[index] = student;
     }
-    this.students.unshift(student)
   }
 }

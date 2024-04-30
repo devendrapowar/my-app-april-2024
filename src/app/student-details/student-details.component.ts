@@ -17,13 +17,15 @@ export class StudentDetailsComponent {
     this.initStudentDetails(value);
   }
 
-  constructor(private studentService: StudentService, private router: Router) {}
+  constructor(private studentService: StudentService, private router: Router) { }
 
   initStudentDetails(id: string) {
-    this.student = this.studentService.getStudentData(id);
-    if(!this.student) {
-      this.goTo();
-    }
+    this.studentService.getStudentData(id).subscribe((res) => {
+      this.student = res;
+      if (!this.student) {
+        this.goTo();
+      }
+    });
   }
 
   goTo() {

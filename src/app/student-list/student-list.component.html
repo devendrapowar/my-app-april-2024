@@ -29,8 +29,9 @@
             <td>{{student.email}}</td>
             <td>{{student.number | currency: 'INR': 'code': '1.1-2'}}</td>
             <td>
-                <button class="btn btn-primary me-2" (click)="deleteStudent(i)">Delete</button>
-                <button class="btn btn-primary" (click)="goTo(student.id)">View</button>
+                <button class="btn btn-primary " (click)="deleteStudent(student.id)">Delete</button>
+                <button class="btn btn-primary mx-2" (click)="goTo('student-details', student.id)">View</button>
+                <button class="btn btn-primary" (click)="goTo('edit-student', student.id)">Edit</button>
             </td>
         </tr>
     </tbody>
