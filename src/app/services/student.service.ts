@@ -70,18 +70,15 @@ export class StudentService {
 
   createStudent(student: StudentModel): Observable<any> {
     return this.httpClint.post(this.url + '/students', student);
-    // if(!student.id) {
-    //   student.id = 'id' + this.students.length + 1;
-    // }
-    // this.students.unshift(student)
   }
 
   editStudent(student: StudentModel) {
-    const index = this.students.findIndex((std: StudentModel)=> {
-      return std.id == student.id
-    })
-    if(index > -1) {
-      this.students[index] = student;
-    }
+    return this.httpClint.patch(this.url + '/students/' + student.id, student);
+    // const index = this.students.findIndex((std: StudentModel)=> {
+    //   return std.id == student.id
+    // })
+    // if(index > -1) {
+    //   this.students[index] = student;
+    // }
   }
 }

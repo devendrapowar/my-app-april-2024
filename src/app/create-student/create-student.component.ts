@@ -45,13 +45,19 @@ export class CreateStudentComponent  implements OnInit {
   }
 
   initStudent() {
-    const studentData: any = this.studentService.getStudentData(this.studentId);
-    this.studentForm.setValue(studentData);
+    this.studentService.getStudentData(this.studentId).subscribe((res)=>{
+      this.studentForm.setValue(res);
+      // this.studentForm.patchValue({
+      //   name: 'test'
+      // })
+    });
   }
 
   saveStudent() {
     if(this.studentId) {
-      this.studentService.editStudent(this.studentForm.value);
+      this.studentService.editStudent(this.studentForm.value).subscribe((res)=>{
+        this.goTo();
+      });
     } else {
       this.studentService.createStudent(this.studentForm.value).subscribe((res)=>{
         this.goTo();
